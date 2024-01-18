@@ -15,9 +15,10 @@ module.exports = {
     { type: "perf", section: "🔧 Other", hidden: true },
     { type: "test", section: "🧪 Tests", hidden: false },
   ],
+  releaseCommitMessageFormat: "chore(release): Release v{{currentTag}}",
   skip: {
-    tag: true,
-    commit: true,
+    // tag: true,
+    // commit: true,
   },
   writerOpts: {
     commitsSort: true,
