@@ -1,5 +1,5 @@
 {
-  "name": "@envronment/schematics",
+  "name": "@streetless/schematics",
   "version": "0.0.1",
   "description": "Custom Schematics for NestJS-Core",
   "author": "Alwyn974",
