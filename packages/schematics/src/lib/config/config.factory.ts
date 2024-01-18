@@ -1,6 +1,7 @@
 import { join, Path, strings } from "@angular-devkit/core";
 import {
   apply,
+  branchAndMerge,
   chain,
   filter,
   mergeWith,
@@ -11,23 +12,28 @@ import {
   SchematicsException,
   Source,
   template,
+  Tree,
   url,
 } from "@angular-devkit/schematics";
-import { Location, NameParser } from "@nestjs/schematics";
 import { ConfigOptions } from "./config.schema";
-import { normalizeToKebabOrSnakeCase } from "@nestjs/cli/lib/utils/formatting";
-import { mergeSourceRoot } from "../../utils";
+import { Location, mergeSourceRoot, ModuleDeclarator, ModuleFinder, NameParser } from "../../utils";
+import { normalizeToKebabOrSnakeCase } from "../../utils/formatting";
+import { ConfigDeclarationOptions, ConfigDeclarator } from "./config.declarator";
 
 export const main = (options: ConfigOptions): Rule => {
   options = transform(options);
-  const sourceRoot = mergeSourceRoot(options);
-  const generatedSource = mergeWith(generate(options));
-  const rules: Array<Rule> = [sourceRoot, generatedSource];
-  return chain(rules);
+  return (tree: Tree, context: SchematicContext) =>
+    branchAndMerge(chain([mergeSourceRoot(options), addDeclarationToModule(options), mergeWith(generate(options))]))(
+      tree,
+      context
+    );
 };
 
 const transform = (options: ConfigOptions): ConfigOptions => {
   const target: ConfigOptions = Object.assign({}, options);
+  target.metadata = "config";
+  target.type = "config";
+
   if (!target.name) throw new SchematicsException("Option (name) is required.");
 
   const location: Location = new NameParser().parse(target);
@@ -55,3 +61,24 @@ const generate =
       }),
       move(options.path!),
     ])(context);
+
+const addDeclarationToModule =
+  (options: ConfigOptions): Rule =>
+  (tree: Tree) => {
+    if (options.skipImport !== undefined && options.skipImport) return tree;
+
+    options.module = new ModuleFinder(tree).find({
+      name: options.name,
+      path: options.path as Path,
+    });
+    if (!options.module) return tree;
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const content = tree.read(options.module).toString();
+    const declarator: ConfigDeclarator = new ConfigDeclarator();
+    const oh = options as ConfigDeclarationOptions;
+    console.log("declarator: ", declarator.declare(content, oh));
+    // tree.overwrite(options.module, declarator.declare(content, options as DeclarationOptions));
+    return tree;
+  };

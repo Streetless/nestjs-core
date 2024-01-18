@@ -26,4 +26,20 @@ export interface ConfigOptions {
    * @default "spec"
    */
   specFileSuffix?: string;
+  /**
+   * Directive to insert declaration in module.
+   */
+  skipImport?: boolean;
+  /**
+   * The path to insert the service declaration.
+   */
+  module?: Path | null;
+  /**
+   * Metadata name affected by declaration insertion.
+   */
+  metadata?: string;
+  /**
+   * Nest element type name
+   */
+  type?: string;
 }

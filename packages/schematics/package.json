@@ -21,6 +21,8 @@
     "publish:next": "pnpm publish --access public --tag next",
     "prepublish:github": "pnpm release",
     "publish:github": "pnpm publish --access public",
+    "test": "npm run clean && NODE_ENV=test jest -w 1 --no-cache --config jest.json",
+    "test:dev": "NODE_ENV=test npm run -s test -- --watchAll",
     "prerelease": "pnpm build",
     "release": "commit-and-tag-version",
     "release:dry": "pnpm release --dry-run"
@@ -32,13 +34,14 @@
   "dependencies": {
     "@angular-devkit/core": "^17.1.0",
     "@angular-devkit/schematics": "^17.1.0",
-    "@nestjs/schematics": "^10.1.0"
+    "jsonc-parser": "^3.2.0"
   },
   "devDependencies": {
     "@alwyn974/devmoji": "^2.5.4",
     "@commitlint/cli": "^18.4.4",
     "@commitlint/config-conventional": "^18.4.4",
     "@nestjs/cli": "^10.3.0",
+    "@nestjs/schematics": "^10.1.0",
     "@nestjs/testing": "^10.3.0",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.11",
