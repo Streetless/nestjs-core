@@ -28,17 +28,6 @@ module.exports = {
       filename: "./package.json", // default
       // The `json` updater assumes the version is available under a `version` key in the provided JSON document.
       type: "json",
-    },
-    {
-      filename: "./openapi.json",
-      updater: {
-        readVersion: (content) => JSON.parse(content).info.version,
-        writeVersion: (content, version) => {
-          const parsed = JSON.parse(content);
-          parsed.info.version = version;
-          return JSON.stringify(parsed, null, 2);
-        }
-      }
-    },
+    }
   ],
 };
