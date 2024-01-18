@@ -31,14 +31,14 @@
   },
   "dependencies": {
     "@angular-devkit/core": "^17.1.0",
-    "@angular-devkit/schematics": "^17.1.0"
+    "@angular-devkit/schematics": "^17.1.0",
+    "@nestjs/schematics": "^10.1.0"
   },
   "devDependencies": {
     "@alwyn974/devmoji": "^2.5.4",
     "@commitlint/cli": "^18.4.4",
     "@commitlint/config-conventional": "^18.4.4",
     "@nestjs/cli": "^10.3.0",
-    "@nestjs/schematics": "^10.1.0",
     "@nestjs/testing": "^10.3.0",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.11",
