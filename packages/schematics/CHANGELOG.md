@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.6](https://github.com/streetless/nestjs-core/compare/v0.0.5...v0.0.6) (2024-01-18)
+
+
+### 🐛 Bug Fixes
+
+* **schema:** Fix url of json schema ([0b08b20](https://github.com/streetless/nestjs-core/commit/0b08b206ec3023a987be2de768e529e9967f401a))
+
 ## [0.0.5](https://github.com/streetless/nestjs-core/compare/v0.0.4...v0.0.5) (2024-01-18)
 
 
