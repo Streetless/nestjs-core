@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Custom Schematics for NestJS-Core",
   "author": "Alwyn974",
-  "private": true,
   "license": "MIT",
   "main": "dist/index.js",
   "files": [
@@ -12,15 +11,23 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc --project tsconfig.lib.json",
-    "postbuild": "pnpm run copy:collection && pnpm run copy:lib",
+    "postbuild": "pnpm copy:collection && pnpm copy:lib",
     "copy:collection": "cpx src/collection.json dist && cpx \"src/lib/**/schema.json\" dist/lib",
     "copy:lib": "cpx \"src/lib/**/{files,workspace}/**/*.*\" dist/lib && cpx \"src/lib/**/{files,workspace}/**/.!(gitignore)\" dist/lib",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "lint:fix": "pnpm eslint --fix",
-    "prerelease": "pnpm run build",
+    "prepublish:next": "pnpm build",
+    "publish:next": "pnpm publish --access public --tag next",
+    "prepublish:github": "pnpm build",
+    "publish:github": "pnpm publish --access public",
+    "prerelease": "pnpm build",
     "release": "commit-and-tag-version",
     "release:dry": "pnpm release --dry-run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streetless/nestjs-core.git"
   },
   "dependencies": {
     "@angular-devkit/core": "^17.1.0",
@@ -57,5 +64,8 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
   },
-  "schematics": "./dist/collection.json"
+  "schematics": "./dist/collection.json",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
 }
