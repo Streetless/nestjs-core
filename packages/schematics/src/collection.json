@@ -1,0 +1,11 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "config": {
+      "factory": "./lib/config/config.factory.ts#main",
+      "description": "Create a config file",
+      "schema": "./lib/config/schema.json",
+      "aliases": ["c"]
+    }
+  }
+}

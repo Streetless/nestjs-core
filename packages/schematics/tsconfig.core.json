@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    // type checking
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true, // https://www.typescriptlang.org/tsconfig#noImplicitOverride
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": false, // Not really pratical https://www.typescriptlang.org/tsconfig#noPropertyAccessFromIndexSignature
+    "noUncheckedIndexedAccess": false, // Add undefined to any array https://www.typescriptlang.org/tsconfig#noUncheckedIndexedAccess
+    "strict": true,
+    "strictBindCallApply": true, // https://www.typescriptlang.org/tsconfig#strictBindCallApply, maybe too strict for some ptr func in TS
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "useUnknownInCatchVariables": true,
+    // modules
+    "resolveJsonModule": true,
+    // js support
+    "allowJs": true,
+    "checkJs": true
+  }
+}
