@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.7](https://github.com/streetless/nestjs-core/compare/v0.0.6...v0.0.7) (2024-01-19)
+
+
+### ✨ Features
+
+* **config:** Add auto import and auto load for ConfigModule ([3975ea2](https://github.com/streetless/nestjs-core/commit/3975ea292d9c661d036870687991ba7281e42f5c))
+
+
+### 🐛 Bug Fixes
+
+* **config-spec:** Fix file name for config spec ([997d1ac](https://github.com/streetless/nestjs-core/commit/997d1ac944161eb4107663264b90519a8af13efb))
+
+
+### ♻️ Refactoring
+
+* Fix eslint warnings ([bbf094b](https://github.com/streetless/nestjs-core/commit/bbf094b896ecaa8591dffecc638cddfa59409b71))
+
 ## [0.0.6](https://github.com/streetless/nestjs-core/compare/v0.0.5...v0.0.6) (2024-01-18)
 
 
