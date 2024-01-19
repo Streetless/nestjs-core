@@ -78,8 +78,6 @@ const addDeclarationToModule =
     // @ts-ignore
     const content = tree.read(options.module).toString();
     const declarator: ConfigDeclarator = new ConfigDeclarator();
-    const oh = options as ConfigDeclarationOptions;
-    console.log("declarator: ", declarator.declare(content, oh));
-    // tree.overwrite(options.module, declarator.declare(content, options as DeclarationOptions));
+    tree.overwrite(options.module, declarator.declare(content, options as ConfigDeclarationOptions));
     return tree;
   };
