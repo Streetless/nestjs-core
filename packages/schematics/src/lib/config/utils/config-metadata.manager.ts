@@ -1,7 +1,8 @@
 import {
   ArrayLiteralExpression,
   createSourceFile,
-  Expression, Identifier,
+  Expression,
+  Identifier,
   Node,
   NodeArray,
   ObjectLiteralElement,
@@ -23,7 +24,8 @@ export class ConfigMetadataManager extends MetadataManager {
     if (!options.hasValidation) return this.content;
     const source: SourceFile = createSourceFile("filename.ts", this.content, ScriptTarget.ES2017);
     const environmentSchema = this.getValidEnvironmentSchema(source);
-    if (!environmentSchema) throw new Error(`Missing global variable 'validEnvironmentSchema' in your module: ${options.module}`);
+    if (!environmentSchema)
+      throw new Error(`Missing global variable 'validEnvironmentSchema' in your module: ${options.module}`);
     return this.addValidationSchemaToValidEnvironmentSchema(source, environmentSchema, options);
   }
 
@@ -103,11 +105,12 @@ export class ConfigMetadataManager extends MetadataManager {
         .find(node => node.kind === SyntaxKind.ObjectLiteralExpression);
       if (!forRootContentNode) throw new Error("Could not find forRoot content in ConfigModule.forRoot({ ... })");
       const forRootContent = forRootContentNode as ObjectLiteralExpression;
-      const loadArray = forRootContent.properties
-        .find(node => node.kind === SyntaxKind.PropertyAssignment && (node.name as Identifier).escapedText === "load");
+      const loadArray = forRootContent.properties.find(
+        node => node.kind === SyntaxKind.PropertyAssignment && (node.name as Identifier).escapedText === "load"
+      );
       if (!loadArray) throw new Error("Could not find load array in ConfigModule.forRoot({ load: [...] })");
       const loadArrayContent = (loadArray as PropertyAssignment).initializer as ArrayLiteralExpression;
-      node = loadArrayContent.elements[loadArrayContent.elements.length - 1]
+      node = loadArrayContent.elements[loadArrayContent.elements.length - 1];
     }
     let toInsert: string;
     let position = (node as Node).getEnd();
