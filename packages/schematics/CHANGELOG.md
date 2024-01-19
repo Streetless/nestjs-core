@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.11](https://github.com/streetless/nestjs-core/compare/v0.0.10...v0.0.11) (2024-01-19)
+
+
+### ♻️ Refactoring
+
+* **config-template:** Fix empty line before and after schema condition ([05cf16f](https://github.com/streetless/nestjs-core/commit/05cf16fcb8db70f7d3f02b91a13044a1a65c4a79))
+
 ## [0.0.10](https://github.com/streetless/nestjs-core/compare/v0.0.9...v0.0.10) (2024-01-19)
 
 ## [0.0.9](https://github.com/streetless/nestjs-core/compare/v0.0.8...v0.0.9) (2024-01-19)
