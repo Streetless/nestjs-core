@@ -1,11 +1,9 @@
 import Joi from "joi";
 import { ConfigType, registerAs } from "@nestjs/config";
-
 <% if(hasValidation) { %>export const <%= name %>ValidationSchema = {
 
 };
 <% } %>
-
 /**
  * @warning Only use this if config service is not available
  */

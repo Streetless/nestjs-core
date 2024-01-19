@@ -5,14 +5,13 @@ describe("<%= classify(name) %>Config", () => {
     expect(<%= name %>Config()).toBeDefined();
   });
 });
-
-<% if(hasValidation) { %>describe("<%= classify(name) %>ValidationSchema", () => {
+<% if(hasValidation) { %>
+describe("<%= classify(name) %>ValidationSchema", () => {
   it("should be defined", () => {
     expect(<%= name %>ValidationSchema).toBeDefined();
   });
 });
 <% } %>
-
 describe("<%= classify(name) %>ConfigKey", () => {
   it("should be defined", () => {
     expect(<%= classify(name) %>ConfigKey).toBeDefined();
