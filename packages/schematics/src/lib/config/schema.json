@@ -36,6 +36,11 @@
       "type": "string",
       "default": "spec",
       "description": "Specifies the file suffix of spec files."
+    },
+    "hasValidation": {
+      "type": "boolean",
+      "default": true,
+      "description": "Flag to indicate if the validation schema is generated."
     }
   },
   "required": ["name"]

@@ -27,6 +27,10 @@ export interface ConfigOptions {
    */
   specFileSuffix?: string;
   /**
+   * Flag to add validation import.
+   */
+  hasValidation?: boolean;
+  /**
    * Directive to insert declaration in module.
    */
   skipImport?: boolean;

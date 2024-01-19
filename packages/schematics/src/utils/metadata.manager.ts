@@ -18,7 +18,7 @@ import {
 import { DeclarationOptions } from "./module.declarator";
 
 export class MetadataManager {
-  constructor(private content: string) {}
+  constructor(protected content: string) {}
 
   public insert(
     metadata: string,
@@ -29,33 +29,16 @@ export class MetadataManager {
     const decoratorNodes: Node[] = this.getDecoratorMetadata(source, "@Module");
     const node: Node = decoratorNodes[0];
     // If there is no occurrence of `@Module` decorator, nothing will be inserted
-    if (!node) {
-      return;
-    }
+    if (!node) return;
     const metadataToUse = metadata === "config" ? "imports" : metadata;
-    const matchingProperties: ObjectLiteralElement[] = (node as ObjectLiteralExpression).properties
-      .filter(prop => prop.kind === SyntaxKind.PropertyAssignment)
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      .filter((prop: PropertyAssignment) => {
-        const name = prop.name;
-        switch (name.kind) {
-          case SyntaxKind.Identifier:
-            return (name as Identifier).getText(source) === metadataToUse;
-          case SyntaxKind.StringLiteral:
-            return (name as StringLiteral).text === metadataToUse;
-          default:
-            return false;
-        }
-      });
+    const matchingProperties = this.getMatchingProperties(source, metadataToUse, node);
 
     symbol = this.mergeSymbolAndExpr(symbol, staticOptions);
     const addBlankLinesIfDynamic = () => {
       symbol = staticOptions ? this.addBlankLines(symbol) : symbol;
     };
-    if (matchingProperties.length === 0) {
-      if (metadata === "config") throw new Error("Config module must already have imports property");
 
+    if (matchingProperties.length === 0) {
       const expr = node as ObjectLiteralExpression;
       if (expr.properties.length === 0) {
         addBlankLinesIfDynamic();
@@ -64,11 +47,31 @@ export class MetadataManager {
       addBlankLinesIfDynamic();
       return this.insertNewMetadataToDecorator(expr, source, metadataToUse, symbol);
     }
-    return this.insertSymbolToMetadata(source, metadata, matchingProperties, symbol, staticOptions);
+    return this.insertSymbolToMetadata(source, matchingProperties, symbol, staticOptions);
+  }
+
+  protected getMatchingProperties(source: SourceFile, metadata: string, node: Node): ObjectLiteralElement[] {
+    return (
+      (node as ObjectLiteralExpression).properties
+        .filter(prop => prop.kind === SyntaxKind.PropertyAssignment)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        .filter((prop: PropertyAssignment) => {
+          const name = prop.name;
+          switch (name.kind) {
+            case SyntaxKind.Identifier:
+              return (name as Identifier).getText(source) === metadata;
+            case SyntaxKind.StringLiteral:
+              return (name as StringLiteral).text === metadata;
+            default:
+              return false;
+          }
+        })
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private getDecoratorMetadata(source: SourceFile, identifier: string): Node[] {
+  protected getDecoratorMetadata(source: SourceFile, identifier: string): Node[] {
     return this.getSourceNodes(source)
       .filter(
         node => node.kind === SyntaxKind.Decorator && (node as Decorator).expression.kind === SyntaxKind.CallExpression
@@ -78,7 +81,7 @@ export class MetadataManager {
       .map(expr => expr.arguments[0] as ObjectLiteralExpression);
   }
 
-  private getSourceNodes(sourceFile: SourceFile): Node[] {
+  protected getSourceNodes(sourceFile: SourceFile): Node[] {
     const nodes: Node[] = [sourceFile];
     const result: Node[] = [];
     while (nodes.length > 0) {
@@ -93,7 +96,7 @@ export class MetadataManager {
     return result;
   }
 
-  private insertMetadataToEmptyModuleDecorator(
+  protected insertMetadataToEmptyModuleDecorator(
     expr: ObjectLiteralExpression,
     metadata: string,
     symbol: string
@@ -108,7 +111,7 @@ export class MetadataManager {
     }, "");
   }
 
-  private insertNewMetadataToDecorator(
+  protected insertNewMetadataToDecorator(
     expr: ObjectLiteralExpression,
     source: SourceFile,
     metadata: string,
@@ -132,9 +135,8 @@ export class MetadataManager {
     }, "");
   }
 
-  private insertSymbolToMetadata(
+  protected insertSymbolToMetadata(
     source: SourceFile,
-    metadata: string,
     matchingProperties: ObjectLiteralElement[],
     symbol: string,
     staticOptions?: DeclarationOptions["staticOptions"]
@@ -145,10 +147,6 @@ export class MetadataManager {
     if (!arrLiteral.elements) {
       // "imports" is not an array but rather function/constant
       return this.content;
-    }
-    if (metadata === "config") {
-      const importsNode = matchingProperties[0].getChildren(source)[2];
-      console.log("child: ", matchingProperties[0].getChildren(source)[2].getText(source));
     }
     if (arrLiteral.elements.length === 0) node = arrLiteral;
     else node = arrLiteral.elements;
@@ -176,7 +174,7 @@ export class MetadataManager {
     }, "");
   }
 
-  private mergeSymbolAndExpr(symbol: string, staticOptions?: DeclarationOptions["staticOptions"]): string {
+  protected mergeSymbolAndExpr(symbol: string, staticOptions?: DeclarationOptions["staticOptions"]): string {
     if (!staticOptions) return symbol;
     const spacing = 6;
     let options = JSON.stringify(staticOptions.value, null, spacing);
@@ -187,7 +185,7 @@ export class MetadataManager {
     return symbol;
   }
 
-  private addBlankLines(expr: string): string {
+  protected addBlankLines(expr: string): string {
     return `\n    ${expr}\n  `;
   }
 }

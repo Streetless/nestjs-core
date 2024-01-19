@@ -16,9 +16,9 @@ import {
   url,
 } from "@angular-devkit/schematics";
 import { ConfigOptions } from "./config.schema";
-import { Location, mergeSourceRoot, ModuleDeclarator, ModuleFinder, NameParser } from "../../utils";
+import { Location, mergeSourceRoot, ModuleFinder, NameParser } from "../../utils";
 import { normalizeToKebabOrSnakeCase } from "../../utils/formatting";
-import { ConfigDeclarationOptions, ConfigDeclarator } from "./config.declarator";
+import { ConfigDeclarationOptions, ConfigDeclarator } from "./utils/config.declarator";
 
 export const main = (options: ConfigOptions): Rule => {
   options = transform(options);
@@ -40,6 +40,7 @@ const transform = (options: ConfigOptions): ConfigOptions => {
   target.name = normalizeToKebabOrSnakeCase(location.name);
   target.path = normalizeToKebabOrSnakeCase(location.path);
   target.specFileSuffix = normalizeToKebabOrSnakeCase(options.specFileSuffix || "spec");
+  target.hasValidation = options.hasValidation || true; // TODO: handle optional generation of validation schema in spec and config
 
   target.path = target.flat ? target.path : join(target.path as Path, target.name);
   return target;
